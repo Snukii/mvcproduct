@@ -17,7 +17,20 @@ namespace Mvc_Task.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Products.ToList());
+            string searchtext = Request.Params["search"];
+
+            List<Product> result;
+
+            if (String.IsNullOrEmpty(searchtext))
+            {
+                result = db.Products.ToList();
+            } else
+            {
+                result = db.Products.Where(p => p.Name.Contains(searchtext)).ToList();
+            }
+            
+
+            return View(result);
         }
 
         // GET: Products/Details/5
